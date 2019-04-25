@@ -1,2 +1,3 @@
-var test = "test";
-console.log(test);
+steem.api.getAccountCount(function(err, result) {
+  console.log(err, result);
+});
