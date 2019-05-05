@@ -79,9 +79,9 @@ function submit()
 					table_content += `
 						<tr>
 							<td> ${result[i].delegatee} </td>
-							<td> ${Math.round(steem.formatter.vestToSteem(owned_vesting_shares, total_vesting_shares, total_vesting_fund_steem) * 100) / 100} </td>
-							<td> ${Math.round(steem.formatter.vestToSteem(delegated, total_vesting_shares, total_vesting_fund_steem) * 100) / 100} </td> 
-							<td> ${Math.round(steem.formatter.vestToSteem(total_delgated, total_vesting_shares, total_vesting_fund_steem) * 100) / 100} </td>
+							<td> ${Math.round(steem.formatter.vestToSteem(owned_vesting_shares, total_vesting_shares, total_vesting_fund_steem))} </td>
+							<td> ${Math.round(steem.formatter.vestToSteem(delegated, total_vesting_shares, total_vesting_fund_steem))} </td> 
+							<td> ${Math.round(steem.formatter.vestToSteem(total_delgated, total_vesting_shares, total_vesting_fund_steem))} </td>
 							<td> ${steem.formatter.reputation(accountDetails[i].reputation)} </td>
 							<td> ${Math.round((today - last_root.getTime()) / one_day)} </td>
 							<td> ${Math.round((today - last_post.getTime()) / one_day)} </td>

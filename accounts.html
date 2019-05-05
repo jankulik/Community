@@ -20,21 +20,30 @@
 				<div class="row">
 					<div class="col-md-12">
 
-						<h1> Steem Community Tool </h1>
-						<h4> Use various tools to manage your community better </h4>
+						<h1> Steem Accounts Scanner </h1>
+						<h4> Check information about accounts </h4>
 
-						<button id="button" class="button" onclick="location.href='http://www.example.com'"> Delegatee Checker </button>
+				  		<textarea id="account_names" placeholder="Account names (one per line, without @)" style="width: 100%;height: 140px;"></textarea>
+				  		<button id="button" class="button" onclick={getAccounts(0);return(false);}> Scan accounts </button>
 
-						<button id="button" class="button" onclick="location.href='http://www.example.com'"> Accounts Scanner </button>
+				  		<div id="bar" style="display: none;"></div>
 
+						<span id="table"></span>
 					</div>
 				</div>
 			</div>
 		</main>
 
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/xlsx.core.min.js"></script>
+		<script type="text/javascript" src="js/Blob.min.js"></script>
+		<script type="text/javascript" src="js/FileSaver.min.js"></script>
+		<script type="text/javascript" src="js/tableexport.min.js"></script>
+
 		<script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
 		<script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
     
-		<script src="js/delegatees.js"></script>
+		<script src="js/accounts.js"></script>
 	</body>
 </html>
