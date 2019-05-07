@@ -1,6 +1,7 @@
 var names = [];
 var table_content;
 var width = 1;
+var account_index = 0;
 
 function getAccounts(start)
 {
@@ -9,6 +10,7 @@ function getAccounts(start)
 
 	var bar = document.getElementById("bar"); 
 	var id = setInterval(frame, 10);
+
 	function frame()
 	{
 		if(width >= 99 || width >= ((start + 100) / accounts.split('\n').length) * 100)
@@ -24,6 +26,8 @@ function getAccounts(start)
 	if(start == 0)
 	{
 		names = [];
+		account_index = 0;
+
 		for(var i = 0; i < accounts.split('\n').length; i++)
 			names.push(accounts.split('\n')[i]);
 
@@ -32,7 +36,6 @@ function getAccounts(start)
 		bar.innerHTML = width * 1 + '%';
 		bar.style.display = 'block';
 
-		document.getElementById("table").innerHTML = '';
 		table_content = `
 			<table id="table">
 			<tr>
@@ -46,8 +49,13 @@ function getAccounts(start)
 				<th> Number of Posts </th>
 				<th> Followers </th>
 				<th> Followings </th>
-			</tr>`;
+			</tr>
+			</table>`;
+
+		document.getElementById("table_span").innerHTML = table_content;
 	}
+
+	var table = document.getElementById("table");
 
 	var subNames = [];
 	for(var i = start; (i < (start + 99)) && (i < names.length); i++)
@@ -73,6 +81,8 @@ function getAccounts(start)
 			{
 				if(accountDetails[i] !== undefined)
 				{
+					account_index++;
+
 					var account_vesting_shares = parseInt(accountDetails[i].vesting_shares.split(' ')[0]);
 					var delegated_vesting_shares = parseInt(accountDetails[i].delegated_vesting_shares.split(' ')[0]);
 					var total_delegated_vesting_shares = parseInt(accountDetails[i].received_vesting_shares.split(' ')[0] - accountDetails[i].delegated_vesting_shares.split(' ')[0]);
@@ -95,30 +105,36 @@ function getAccounts(start)
 						}
 					}
 
-					table_content += `
-						<tr>
-							<td> ${accountDetails[i].name} </td>
-							<td> ${Math.round(steem.formatter.vestToSteem(total_account_vesting_shares, total_vesting_shares, total_vesting_fund_steem))} </td>
-							<td> ${Math.round(steem.formatter.vestToSteem(delegated_vesting_shares, total_vesting_shares, total_vesting_fund_steem))} </td>
-							<td> ${steem.formatter.reputation(accountDetails[i].reputation)} </td>
-							<td> ${Math.round((today - last_root.getTime()) / one_day)} </td>
-							<td> ${Math.round((today - last_post.getTime()) / one_day)} </td>
-							<td> ${Math.round((today - last_vote.getTime()) / one_day)} </td>
-							<td> ${accountDetails[i].post_count} </td>
-							<td> ${followersCount} </td>
-							<td> ${followingsCount} </td>
-						</tr>`;
+					var row = table.insertRow(account_index);
+					var cell1 = row.insertCell(0);
+					var cell2 = row.insertCell(1);
+					var cell3 = row.insertCell(2);
+					var cell4 = row.insertCell(3);
+					var cell5 = row.insertCell(4);
+					var cell6 = row.insertCell(5);
+					var cell7 = row.insertCell(6);
+					var cell8 = row.insertCell(7);
+					var cell9 = row.insertCell(8);
+					var cell10 = row.insertCell(9);
+
+					cell1.innerHTML = accountDetails[i].name;
+					cell2.innerHTML = Math.round(steem.formatter.vestToSteem(total_account_vesting_shares, total_vesting_shares, total_vesting_fund_steem));
+					cell3.innerHTML = Math.round(steem.formatter.vestToSteem(delegated_vesting_shares, total_vesting_shares, total_vesting_fund_steem));
+					cell4.innerHTML = steem.formatter.reputation(accountDetails[i].reputation);
+					cell5.innerHTML = Math.round((today - last_root.getTime()) / one_day);
+					cell6.innerHTML = Math.round((today - last_post.getTime()) / one_day);
+					cell7.innerHTML = Math.round((today - last_vote.getTime()) / one_day);
+					cell8.innerHTML = accountDetails[i].post_count;
+					cell9.innerHTML = followersCount;
+					cell10.innerHTML = followingsCount;
 				}
 			}
 
 			if((start + 100) > names.length)
 			{	
-				table_content += `</table>`;
 				bar.style.width = 100 + '%'; 
 				bar.innerHTML = 100 * 1 + '%';
 				bar.style.display = 'none';
-
-				document.getElementById("table").innerHTML = table_content;
 
 				$("table").tableExport({
 					headings: true,                    // (Boolean), display table headings (th/td elements) in the <thead>
