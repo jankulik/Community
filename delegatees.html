@@ -6,6 +6,7 @@
     	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 		<title> Community Tool </title>
+		<link rel="icon" type="image/png" href="img/steem.png"/>
 
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css">
@@ -24,8 +25,11 @@
 						<h4> Check who get delegated SP from an account </h4>
 
 				  		<input id="account_name" placeholder="Account name (without @)" style="width: 100%;height: 35px;"></input>
+
 				  		<button id="button" class="button" onclick={submit();return(false);}> Get list of delegatees </button>
 
+				  		<div id="bar" style="display: none;"></div>
+				  		
 						<span id="table"> </span>
 					</div>
 				</div>

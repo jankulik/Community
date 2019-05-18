@@ -1,36 +1,79 @@
+var repliesAuthors = [];
 var names = [];
 var follow = [];
 var table_content;
-var width = 5;
+var width = 0;
 var account_index = 0;
+
+var input = document.getElementById("account_name");
+input.addEventListener("keyup", function(event)
+{
+	if(event.keyCode === 13)
+	{
+		event.preventDefault();
+		document.getElementById("button").click();
+	}
+});
+
+function submit()
+{
+	var account = document.getElementById("account_name").value;
+	repliesAuthors = [];
+
+	steem.api.getDiscussionsByAuthorBeforeDate(account, '', '', 100, function(err, result)
+	{
+		for(var i = 0; i < result.length; i++)
+		{
+			steem.api.getContentReplies(account, result[i].permlink, function(err2, replies)
+			{
+				for(var j = 0; j < replies.length; j++)
+				{
+					var listed = false;
+					for(var k = 0; k < repliesAuthors.length; k++)
+					{
+						if(repliesAuthors[k] === replies[j].author)
+							listed = true;
+					}
+
+					if(listed === false)
+						repliesAuthors.push(replies[j].author);
+				}
+			});
+		}
+
+		var bar = document.getElementById("bar");
+		var id = setInterval(frameStart, 10);
+
+		bar.style.width = width + '%';
+		bar.innerHTML = width * 1 + '%';
+		bar.style.display = 'block';
+
+		function frameStart()
+		{
+			if(width >= 5)
+				clearInterval(id);
+			else
+			{
+				width++; 
+				bar.style.width = width + '%'; 
+				bar.innerHTML = width * 1 + '%';
+			}
+		}
+
+		setTimeout(function(){getAccounts(0);}, 500);
+	});
+}
 
 function getAccounts(start)
 {
-	var accounts = document.getElementById("account_names").value;
-	
-	var bar = document.getElementById("bar"); 
+	var bar = document.getElementById("bar");
 	var id = setInterval(frame, 10);
-
-	function frame()
-	{
-		if(width >= 99 || width >= ((start + 100) / accounts.split('\n').length) * 100)
-			clearInterval(id);
-		else
-		{
-			width++; 
-			bar.style.width = width + '%'; 
-			bar.innerHTML = width * 1 + '%';
-		}
-	}
 
 	if(start == 0)
 	{
-		names = [];
+		names = repliesAuthors;
 		follow = [];
 		account_index = 0;
-
-		for(var i = 0; i < accounts.split('\n').length; i++)
-			names.push(accounts.split('\n')[i]);
 
 		width = 5;
 		bar.style.width = width + '%'; 
@@ -54,6 +97,18 @@ function getAccounts(start)
 			</table>`;
 
 		document.getElementById("table_span").innerHTML = table_content;
+	}
+
+	function frame()
+	{
+		if(width >= 99 || width >= ((start + 100) / names.length) * 100)
+			clearInterval(id);
+		else
+		{
+			width++; 
+			bar.style.width = width + '%'; 
+			bar.innerHTML = width * 1 + '%';
+		}
 	}
 
 	var table = document.getElementById("table");
@@ -130,8 +185,6 @@ function getAccounts(start)
 					cell10.innerHTML = followingsCount;
 				}
 			}
-
-			console.log(follow);
 
 			if((start + 100) > names.length)
 			{	

@@ -1,3 +1,4 @@
+var width = 1;
 var input = document.getElementById("account_name");
 input.addEventListener("keyup", function(event)
 {
@@ -10,8 +11,27 @@ input.addEventListener("keyup", function(event)
 
 function submit()
 {
-	document.getElementById("table").innerHTML = '<div class="loader"></div>';
 	var account = document.getElementById("account_name").value;
+
+	var bar = document.getElementById("bar"); 
+	var id = setInterval(frame, 10);
+
+	width = 1;
+	bar.style.width = width + '%'; 
+	bar.innerHTML = width * 1 + '%';	
+	bar.style.display = 'block';
+
+	function frame()
+	{
+		if(width >= 99)
+			clearInterval(id);
+		else
+		{
+			width++; 
+			bar.style.width = width + '%'; 
+			bar.innerHTML = width * 1 + '%';
+		}
+	}
 
 	steem.api.getVestingDelegations(account, 0, 1000, function(err, result)
 	{
@@ -94,6 +114,10 @@ function submit()
 
 				table_content += `</table>`;
 				document.getElementById("table").innerHTML = table_content;
+
+				bar.style.width = 100 + '%'; 
+				bar.innerHTML = 100 * 1 + '%';
+				bar.style.display = 'none';
 
 				$("table").tableExport({
 					headings: true,                    // (Boolean), display table headings (th/td elements) in the <thead>
