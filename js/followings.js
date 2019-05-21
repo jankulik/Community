@@ -41,7 +41,7 @@ function submit()
 
 	steem.api.getFollowCount(account, function(err, followCount)
 	{
-		getFollowings(account, '', followCount.follower_count);
+		getFollowings(account, '', followCount.following_count);
 	});
 }
 
@@ -50,7 +50,7 @@ function getFollowings(account, start, followingsCount)
 	steem.api.getFollowing(account, start, 'blog', 1000, function(err, followingsResult)
 	{
 		for(var i = 0; i < followingsResult.length; i++)
-			followings.push(followingsResult[i].follower);
+			followings.push(followingsResult[i].following);
 	});
 
 	if(followings.length < followingsCount)
