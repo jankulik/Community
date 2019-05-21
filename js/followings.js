@@ -47,7 +47,7 @@ function submit()
 
 function getFollowings(account, start, followingsCount)
 {
-	steem.api.getFollowings(account, start, 'blog', 1000, function(err, followingsResult)
+	steem.api.getFollowing(account, start, 'blog', 1000, function(err, followingsResult)
 	{
 		for(var i = 0; i < followingsResult.length; i++)
 			followings.push(followingsResult[i].follower);
