@@ -35,7 +35,7 @@ function submit()
 
   var query = {
     tag: tag,
-    limit: 10
+    limit: 5000
   };
 
   steem.api.getDiscussionsByCreated(query, function(err, result)
