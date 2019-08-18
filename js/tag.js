@@ -59,6 +59,7 @@ function getAccountsByTag(startAccount, startPermlink)
 
         if(!already_present)
         {
+          authors.push(result[i].author);
           account_index++;
           var row = table.insertRow(account_index);
           var cell = row.insertCell(0);
