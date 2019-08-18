@@ -15,7 +15,6 @@ function getAccountsByTag(start)
   var query = {
     tag: tag,
     limit: 10,
-    start: start
   };
 
   steem.api.getDiscussionsByCreated(query, function(err, result)
@@ -33,6 +32,7 @@ function getAccountsByTag(start)
       cell.innerHTML = result[i].name;
     }
 
+    /*
     if((start + 100) > names.length)
     {
       bar.style.width = 100 + '%'; 
@@ -55,6 +55,7 @@ function getAccountsByTag(start)
     }
     else
       setTimeout(function(){getAccountsByTag(start + 100);}, 100);
+    */
   });
 }
 
