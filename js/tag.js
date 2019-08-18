@@ -59,10 +59,10 @@ function getAccountsByTag(startAccount, startPermlink)
 
         if(!already_present)
         {
-          var row = table.insertRow(account_index);
-          var cell = row.insertCell(1);
-          cell.innerHTML = result[i].author;
           account_index++;
+          var row = table.insertRow(account_index);
+          var cell = row.insertCell(0);
+          cell.innerHTML = result[i].author;
         }
       }
     }
