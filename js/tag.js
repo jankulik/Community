@@ -1,4 +1,6 @@
 var tag;
+var account_index = 0;
+var today = Date.now();
 var width = 1;
 var input = document.getElementById("tag_name");
 input.addEventListener("keyup", function(event)
@@ -10,12 +12,27 @@ input.addEventListener("keyup", function(event)
   }
 });
 
-function getAccountsByTag(start)
+function getAccountsByTag(startAccount, startPermlink)
 {
-  var query = {
-    tag: tag,
-    limit: 10,
-  };
+  var query;
+  var last_post = new Date(result[result.length - 1].created);
+
+  if(startAccount !== '' && startPermlink !== '')
+  {
+    query = {
+      tag: tag,
+      limit: 100,
+      start_author: startAccount,
+      start_permlink: startPermlink,
+    };
+  }
+  else
+  {
+    query = {
+      tag: tag,
+      limit: 100,
+    };
+  }
 
   steem.api.getDiscussionsByCreated(query, function(err, result)
   {
@@ -23,17 +40,17 @@ function getAccountsByTag(start)
 
     var table = document.getElementById("table");
     var one_day = 24 * 60 * 60 * 1000;
-    //Math.round((today - last_root.getTime()) / one_day);
 
     for(var i = 0; i < result.length; i++)
     {
       var row = table.insertRow(account_index);
       var cell = row.insertCell(0);
       cell.innerHTML = result[i].name;
+
+      account_index++;
     }
 
-    /*
-    if((start + 100) > names.length)
+    if(Math.round((today - last_root.getTime()) / one_day) > 5)
     {
       bar.style.width = 100 + '%'; 
       bar.innerHTML = 100 * 1 + '%';
@@ -54,14 +71,14 @@ function getAccountsByTag(start)
       });
     }
     else
-      setTimeout(function(){getAccountsByTag(start + 100);}, 100);
-    */
+      setTimeout(function(){getAccountsByTag(result[result.length - 1].author, result[result.length - 1].permlink);}, 100);
   });
 }
 
 function submit()
 {
   tag = document.getElementById("tag_name").value;
+  account_index = 0;
 
   var bar = document.getElementById("bar"); 
   var id = setInterval(frame, 10);
@@ -92,5 +109,5 @@ function submit()
 
   document.getElementById("table").innerHTML = table_content;
 
-  getAccountsByTag('');
+  getAccountsByTag('', '');
 }
