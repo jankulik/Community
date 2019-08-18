@@ -1,6 +1,8 @@
 var tag;
 var account_index = 0;
 var today = Date.now();
+var authors = [];
+
 var width = 1;
 var input = document.getElementById("tag_name");
 input.addEventListener("keyup", function(event)
@@ -36,18 +38,33 @@ function getAccountsByTag(startAccount, startPermlink)
   steem.api.getDiscussionsByCreated(query, function(err, result)
   {
     console.log(result);
-    var last_post = new Date(result[result.length - 1].created);
+    var last_post;
 
     var table = document.getElementById("table");
     var one_day = 24 * 60 * 60 * 1000;
 
     for(var i = 0; i < result.length; i++)
     {
-      var row = table.insertRow(account_index);
-      var cell = row.insertCell(0);
-      cell.innerHTML = result[result.length - 1].author;
+      last_post = new Date(result[i].created);
 
-      account_index++;
+      if(Math.round((today - last_post.getTime()) / one_day) < 5)
+      {
+        var already_present = false;
+
+        for(var j = 0; j < authors.length; j++)
+        {
+          if(result[i].author === authors[j])
+            already_present = true;
+        }
+
+        if(!already_present)
+        {
+          var row = table.insertRow(account_index);
+          var cell = row.insertCell(0);
+          cell.innerHTML = result[i].author;
+          account_index++;
+        }
+      }
     }
 
     if(Math.round((today - last_post.getTime()) / one_day) > 5)
@@ -79,6 +96,7 @@ function submit()
 {
   tag = document.getElementById("tag_name").value;
   account_index = 0;
+  authors = [];
 
   var bar = document.getElementById("bar"); 
   var id = setInterval(frame, 10);
