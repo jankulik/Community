@@ -45,7 +45,7 @@ function getAccountsByTag(startAccount, startPermlink)
     {
       var row = table.insertRow(account_index);
       var cell = row.insertCell(0);
-      cell.innerHTML = result[i].name;
+      cell.innerHTML = result[result.length - 1].author;
 
       account_index++;
     }
@@ -107,7 +107,7 @@ function submit()
       </tr>
     </table>`;
 
-  document.getElementById("table").innerHTML = table_content;
+  document.getElementById("table_span").innerHTML = table_content;
 
   getAccountsByTag('', '');
 }
