@@ -50,7 +50,7 @@ function getAccountsByTag(startAccount, startPermlink)
       account_index++;
     }
 
-    if(Math.round((today - last_root.getTime()) / one_day) > 5)
+    if(Math.round((today - last_post.getTime()) / one_day) > 5)
     {
       bar.style.width = 100 + '%'; 
       bar.innerHTML = 100 * 1 + '%';
