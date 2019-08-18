@@ -47,7 +47,7 @@ function getAccountsByTag(startAccount, startPermlink)
     {
       last_post = new Date(result[i].created);
 
-      if(Math.round((today - last_post.getTime()) / one_day) < 5)
+      if(Math.round((today - last_post.getTime()) / one_day) < 90)
       {
         var already_present = false;
 
@@ -67,7 +67,7 @@ function getAccountsByTag(startAccount, startPermlink)
       }
     }
 
-    if(Math.round((today - last_post.getTime()) / one_day) > 5)
+    if(Math.round((today - last_post.getTime()) / one_day) > 90)
     {
       bar.style.width = 100 + '%'; 
       bar.innerHTML = 100 * 1 + '%';
