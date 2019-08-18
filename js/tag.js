@@ -15,7 +15,6 @@ input.addEventListener("keyup", function(event)
 function getAccountsByTag(startAccount, startPermlink)
 {
   var query;
-  var last_post = new Date(result[result.length - 1].created);
 
   if(startAccount !== '' && startPermlink !== '')
   {
@@ -37,6 +36,7 @@ function getAccountsByTag(startAccount, startPermlink)
   steem.api.getDiscussionsByCreated(query, function(err, result)
   {
     console.log(result);
+    var last_post = new Date(result[result.length - 1].created);
 
     var table = document.getElementById("table");
     var one_day = 24 * 60 * 60 * 1000;
