@@ -89,7 +89,7 @@ function submit()
       </tr>
     </table>`;
 
-  document.getElementById("table_span").innerHTML = table_content;
+  document.getElementById("table").innerHTML = table_content;
 
   getAccountsByTag('');
 }
